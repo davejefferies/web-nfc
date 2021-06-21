@@ -9,7 +9,7 @@ async function test() {
 	if ('NDEFReader' in window) {
     try {
       const ndef = new NDEFReader();
-      ndef.scan();
+      await ndef.scan();
       ndef.onreading = async ({ message }) => {
         if (message.records.length == 0 || message.records[0].recordType == "empty") {
           return;
