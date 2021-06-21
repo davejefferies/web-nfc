@@ -10,8 +10,12 @@ async function test() {
     try {
       const ndef = new NDEFReader();
       await ndef.scan();
+      document.getElementById('result').innerHTML = `Scanning...`;
+      console.log(`Scanning...`);
       ndef.onreading = async ({ message }) => {
         if (message.records.length == 0 || message.records[0].recordType == "empty") {
+	  document.getElementById('result').innerHTML = `No Records`;
+	  console.log(`No Records`);
           return;
         }
         document.getElementById('records').innerHTML = JSON.stringify(message.records);
