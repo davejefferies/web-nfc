@@ -12,7 +12,10 @@ async function test() {
       await ndef.scan();
       document.getElementById('result').innerHTML = `Scanning...`;
       console.log(`Scanning...`);
-      ndef.onreading = async ({ message }) => {
+      ndef.addEventListener("readingerror", () => {
+        log("Argh! Cannot read data from the NFC tag. Try another one?");
+      });
+      ndef.addEventListener("reading", async ({ message, serialNumber }) => {
         if (message.records.length == 0 || message.records[0].recordType == "empty") {
 	  document.getElementById('result').innerHTML = `No Records`;
 	  console.log(`No Records`);
@@ -55,7 +58,7 @@ async function test() {
               console.log(`Record not handled`);
           }
         }
-      };
+      });
     } catch (error) {
   console.log(error);
       document.getElementById('result').innerHTML = error
